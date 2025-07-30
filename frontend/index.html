@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoCart - Give & Get Free Items</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-recycle"></i> EcoCart</h1>
+      <p>Reduce waste by sharing what you don't need</p>
+    </div>
+  </header>
+
+  <nav>
+    <div class="container">
+      <ul>
+        <li><a href="items/browse.html">Browse Items</a></li>
+        <li><a href="items/post.html">Post an Item</a></li>
+        <li><a href="auth/login.html">Login</a></li>
+        <li><a href="auth/register.html">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-card">
+    <div class="card-content">
+      <img 
+        src="https://static.vecteezy.com/system/resources/previews/050/568/803/non_2x/collection-kawaii-stickers-eco-friendly-cute-elements-vector.jpg"
+        alt="Eco Friendly Cartoon"
+        class="hero-image"
+      >
+      <div class="card-text">
+        <h2>Welcome to EcoCart</h2>
+        <p>A free-sharing platform where users can give away items they don’t need and find useful items posted by others - helping reduce waste.
+          You can post items like books, clothes, electronics, furniture, and more.
+          Browse listings by category and claim items for free.</p>
+          <pre><b><i>This platform is designed to promote sustainability and community sharing.
+          Join us in making a positive impact on the environment by reducing waste and sharing resources.</i></b></pre>
+     
+      </div>
+      <div class="button-scroll">
+        <a href="auth/register.html" class="action-btn">Get Started</a>
+        <a href="items/browse.html" class="action-btn">Browse Items</a>
+        <a href="items/post.html" class="action-btn">Post an Item</a>
+        <a href="auth/login.html" class="action-btn">Login</a>
+        <a href="auth/register.html" class="action-btn">Register</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 EcoCart. All rights reserved.</p>
+      <p>Help reduce waste by sharing what you don't need.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('token')) {
+        document.querySelectorAll('a[href="items/post.html"]').forEach(link => link.style.display = 'none');
+      }
+    });
+  </script>
+</body>
+</html>

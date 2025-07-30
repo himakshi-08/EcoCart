@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Item Details</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <main class="container">
+    <div id="item-details">
+      <!-- Item details will be loaded here -->
+    </div>
+    <a href="browse.html" class="btn">Back to Browse</a>
+  </main>
+  <script>
+    // Simple fetch and display logic
+    document.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (!id) {
+        document.getElementById('item-details').innerHTML = '<p>Item not found.</p>';
+        return;
+      }
+      try {
+        const res = await fetch(`http://localhost:5000/api/items`);
+        const data = await res.json();
+        const item = (data.data || data).find(i => i._id === id);
+        if (!item) {
+          document.getElementById('item-details').innerHTML = '<p>Item not found.</p>';
+          return;
+        }
+        document.getElementById('item-details').innerHTML = `
+          <h2>${item.title}</h2>
+          ${item.images && item.images.length > 0 ? `<img src="http://localhost:5000${item.images[0]}" style="max-width:300px;">` : ''}
+          <p><strong>Description:</strong> ${item.description}</p>
+          <p><strong>Category:</strong> ${item.category}</p>
+          <p><strong>Condition:</strong> ${item.condition}</p>
+          <p><strong>Location:</strong> ${item.location}</p>
+        `;
+      } catch (err) {
+        document.getElementById('item-details').innerHTML = '<p>Error loading item details.</p>';
+      }
+    });
+  </script>
+</body>
+</html>
