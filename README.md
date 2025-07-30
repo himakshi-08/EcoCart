@@ -13,7 +13,7 @@ EcoCart is a platform that connects people who want to give away usable househol
 ## Technologies Used
 
 ### Frontend
-- HTML5, CSS3, JavaScript
+- HTML5, CSS, JavaScript
 - Responsive design
 
 ### Backend
@@ -30,8 +30,3 @@ EcoCart is a platform that connects people who want to give away usable househol
 - MongoDB (local or Atlas)
 - Cloudinary account (for image uploads)
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/ecocart.git
-   cd ecocart
