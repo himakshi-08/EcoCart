@@ -5,7 +5,7 @@ EcoCart is a platform that connects people who want to give away usable househol
 ## Features
 
 - User registration and login
-- Browse available items by category
+- Browse available items which are available
 - Post items you no longer need
 - Claim items for free
 - Image uploads for items
