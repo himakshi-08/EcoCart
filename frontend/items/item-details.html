@@ -14,6 +14,7 @@
   </main>
   <script>
     // Simple fetch and display logic
+    const BACKEND_URL = 'https://ecocart-backend-lcos.onrender.com';
     document.addEventListener('DOMContentLoaded', async () => {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
@@ -22,16 +23,20 @@
         return;
       }
       try {
-        const res = await fetch(`http://localhost:5000/api/items`);
+        const res = await fetch(`${BACKEND_URL}/api/items/${id}`);
         const data = await res.json();
-        const item = (data.data || data).find(i => i._id === id);
+        const item = data.data || data;
+
         if (!item) {
           document.getElementById('item-details').innerHTML = '<p>Item not found.</p>';
           return;
         }
         document.getElementById('item-details').innerHTML = `
           <h2>${item.title}</h2>
-          ${item.images && item.images.length > 0 ? `<img src="http://localhost:5000${item.images[0]}" style="max-width:300px;">` : ''}
+          ${item.images && item.images.length > 0 
+  ? `<img src="${item.images[0].url || BACKEND_URL + item.images[0]}" loading="eager" style="max-width:300px;">` 
+  : ''}
+
           <p><strong>Description:</strong> ${item.description}</p>
           <p><strong>Category:</strong> ${item.category}</p>
           <p><strong>Condition:</strong> ${item.condition}</p>
