@@ -1,4 +1,4 @@
-const AUTH_API_BASE_URL = 'https://ecocart-2-injw.onrender.com/api/auth';
+const AUTH_API_BASE_URL = 'https://ecocart-backend-lcos.onrender.com/api/auth';
 
 // Login form
 const loginForm = document.getElementById('login-form');

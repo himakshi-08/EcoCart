@@ -1,5 +1,5 @@
-const API_BASE_URL = 'https://ecocart-2-injw.onrender.com/api/items';
-const BACKEND_URL = 'https://ecocart-2-injw.onrender.com';
+const API_BASE_URL = 'https://ecocart-backend-lcos.onrender.com/api/items';
+const BACKEND_URL = 'https://ecocart-backend-lcos.onrender.com';
 let token = localStorage.getItem('token') || '';
 // Debug mode - set to false for production
 const DEBUG_MODE = true;
