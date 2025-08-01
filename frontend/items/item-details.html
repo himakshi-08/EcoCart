@@ -13,32 +13,43 @@
     <a href="browse.html" class="btn">Back to Browse</a>
   </main>
   <script>
-    // Simple fetch and display logic
+    // Use your deployed backend URL
+    const API_BASE_URL = 'https://ecocart-backend-lcos.onrender.com/api/items'; 
+
     document.addEventListener('DOMContentLoaded', async () => {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
+      const detailsContainer = document.getElementById('item-details');
+
       if (!id) {
-        document.getElementById('item-details').innerHTML = '<p>Item not found.</p>';
+        detailsContainer.innerHTML = '<p>Item not found.</p>';
         return;
       }
+
       try {
-        const res = await fetch(`http://localhost:5000/api/items`);
+        const res = await fetch(API_BASE_URL);
         const data = await res.json();
-        const item = (data.data || data).find(i => i._id === id);
+        const items = data.data || data.items || [];
+
+        const item = items.find(i => i._id === id);
         if (!item) {
-          document.getElementById('item-details').innerHTML = '<p>Item not found.</p>';
+          detailsContainer.innerHTML = '<p>Item not found.</p>';
           return;
         }
-        document.getElementById('item-details').innerHTML = `
+
+        detailsContainer.innerHTML = `
           <h2>${item.title}</h2>
-          ${item.images && item.images.length > 0 ? `<img src="http://localhost:5000${item.images[0]}" style="max-width:300px;">` : ''}
+          ${item.images && item.images.length > 0 
+            ? `<img src="${item.images[0].url || (API_BASE_URL.replace('/api/items', '') + item.images[0].path)}" style="max-width:300px;">`
+            : '<p>No image available</p>'}
           <p><strong>Description:</strong> ${item.description}</p>
           <p><strong>Category:</strong> ${item.category}</p>
           <p><strong>Condition:</strong> ${item.condition}</p>
           <p><strong>Location:</strong> ${item.location}</p>
         `;
       } catch (err) {
-        document.getElementById('item-details').innerHTML = '<p>Error loading item details.</p>';
+        console.error('Error fetching item details:', err);
+        detailsContainer.innerHTML = '<p>Error loading item details.</p>';
       }
     });
   </script>
