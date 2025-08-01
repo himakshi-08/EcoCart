@@ -12,49 +12,48 @@
     </div>
     <a href="browse.html" class="btn">Back to Browse</a>
   </main>
+<script>
+  const BACKEND_URL = 'https://ecocart-backend-lcos.onrender.com';
 
-  <script>
-    const BACKEND_URL = 'https://ecocart-backend-lcos.onrender.com';
+  document.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const itemDetailsContainer = document.getElementById('item-details');
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      const itemDetailsContainer = document.getElementById('item-details');
+    if (!id) {
+      itemDetailsContainer.innerHTML = '<p>Item not found.</p>';
+      return;
+    }
 
-      if (!id) {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/items/${id}`);
+      const data = await res.json();
+      const item = data.data || data;
+
+      if (!item) {
         itemDetailsContainer.innerHTML = '<p>Item not found.</p>';
         return;
       }
 
-      try {
-        const res = await fetch(`${BACKEND_URL}/api/items/${id}`);
-        const data = await res.json();
+      const imageUrl =
+        item.images && item.images.length > 0
+          ? (item.images[0].url || `${BACKEND_URL}${item.images[0].path}`)
+          : null;
 
-        if (!res.ok || !data.item) {
-          itemDetailsContainer.innerHTML = '<p>Item not found.</p>';
-          return;
-        }
+      itemDetailsContainer.innerHTML = `
+        <h2>${item.title}</h2>
+        ${imageUrl ? `<img src="${imageUrl}" style="max-width:300px;">` : ''}
+        <p><strong>Description:</strong> ${item.description}</p>
+        <p><strong>Category:</strong> ${item.category}</p>
+        <p><strong>Condition:</strong> ${item.condition}</p>
+        <p><strong>Location:</strong> ${item.location}</p>
+      `;
+    } catch (err) {
+      console.error(err);
+      itemDetailsContainer.innerHTML = '<p>Error loading item details.</p>';
+    }
+  });
+</script>
 
-        const item = data.item;
-
-        const imageUrl =
-          item.images && item.images.length > 0
-            ? item.images[0] // now a direct URL
-            : null;
-
-        itemDetailsContainer.innerHTML = `
-          <h2>${item.title}</h2>
-          ${imageUrl ? `<img src="${imageUrl}" style="max-width:300px;">` : ''}
-          <p><strong>Description:</strong> ${item.description}</p>
-          <p><strong>Category:</strong> ${item.category}</p>
-          <p><strong>Condition:</strong> ${item.condition}</p>
-          <p><strong>Location:</strong> ${item.location}</p>
-        `;
-      } catch (err) {
-        console.error(err);
-        itemDetailsContainer.innerHTML = '<p>Error loading item details.</p>';
-      }
-    });
-  </script>
 </body>
 </html>
