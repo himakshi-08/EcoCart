@@ -1,28 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Item Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Details | EcoCart</title>
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
-  <main class="container">
-    <div id="item-details">
-      <!-- Item details will be loaded here -->
+
+<body style="background: var(--secondary); min-height: 100vh;">
+  <header>
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <i class="fas fa-recycle"></i>
+        <span>EcoCart</span>
+      </a>
+      <nav id="main-nav">
+        <ul>
+          <li><a href="browse.html">Browse</a></li>
+          <li class="auth-only"><a href="post.html">Post Item</a></li>
+          <li class="auth-only"><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </nav>
     </div>
-    <a href="browse.html" class="btn">Back to Browse</a>
+  </header>
+
+  <main class="container" style="padding: 4rem 1rem;">
+    <div id="item-details" class="animate-fade">
+      <!-- Item details will be loaded here -->
+      <div style="text-align: center; padding: 5rem 0;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary);"></i>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+      <a href="browse.html" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">
+        <i class="fas fa-arrow-left"></i> Back to Marketplace
+      </a>
+    </div>
   </main>
 
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 EcoCart. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/auth.js"></script>
   <script>
-    const BACKEND_URL = 'https://ecocart-backend-lcos.onrender.com';
+    const isLocal = window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.protocol === 'file:';
+    const BACKEND_URL = isLocal ? 'http://localhost:5000' : 'https://ecocart-backend-lcos.onrender.com';
 
     document.addEventListener('DOMContentLoaded', async () => {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
-      const itemDetailsContainer = document.getElementById('item-details');
+      const container = document.getElementById('item-details');
 
       if (!id) {
-        itemDetailsContainer.innerHTML = '<p>Item not found.</p>';
+        container.innerHTML = '<div class="auth-card" style="text-align:center;"><h2>Item not found</h2></div>';
         return;
       }
 
@@ -32,37 +70,85 @@
         const item = data.data || data;
 
         if (!item) {
-          itemDetailsContainer.innerHTML = '<p>Item not found.</p>';
+          container.innerHTML = '<div class="auth-card" style="text-align:center;"><h2>Item no longer available</h2></div>';
           return;
         }
 
-        // ✅ Fix image URL for old and new data
-        let imageUrl = null;
-        if (item.images && item.images.length > 0) {
-          const img = item.images[0];
-
-          if (typeof img === 'string') {
-            // If the image is a string (old data: "/uploads/xxxx")
-            imageUrl = img.startsWith('http') ? img : `${BACKEND_URL}${img}`;
-          } else if (typeof img === 'object') {
-            // If the image is an object (new data with {url or path})
-            imageUrl = img.url || `${BACKEND_URL}${img.path}`;
-          }
+        let imageUrl = item.images && item.images.length > 0 ? item.images[0] : null;
+        if (imageUrl && !imageUrl.startsWith('http')) {
+          imageUrl = `${BACKEND_URL}${imageUrl}`;
         }
 
-        itemDetailsContainer.innerHTML = `
-          <h2>${item.title}</h2>
-          ${imageUrl ? `<img src="${imageUrl}" style="max-width:300px;">` : '<p>No image available</p>'}
-          <p><strong>Description:</strong> ${item.description}</p>
-          <p><strong>Category:</strong> ${item.category}</p>
-          <p><strong>Condition:</strong> ${item.condition}</p>
-          <p><strong>Location:</strong> ${item.location}</p>
+        container.innerHTML = `
+          <div style="background: white; border-radius: 30px; overflow: hidden; box-shadow: var(--shadow); display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
+            <div style="height: 450px; background: var(--accent); display: flex; align-items: center; justify-content: center;">
+              ${imageUrl ?
+            `<img src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover;">` :
+            '<i class="fas fa-box-open fa-5x" style="color: var(--primary-light);"></i>'}
+            </div>
+            <div style="padding: 3rem;">
+              <span class="category-tag" style="position: static; display: inline-block; margin-bottom: 1rem;">${item.category}</span>
+              <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary);">${item.title}</h1>
+              
+              <div style="display: flex; gap: 2rem; margin-bottom: 2rem; padding: 1rem; background: var(--secondary); border-radius: 12px;">
+                <div>
+                  <p style="font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; font-weight: 700;">Condition</p>
+                  <p style="font-weight: 600;">${item.condition}</p>
+                </div>
+                <div>
+                  <p style="font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; font-weight: 700;">Location</p>
+                  <p style="font-weight: 600;"><i class="fas fa-map-marker-alt"></i> ${item.location}</p>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 2.5rem;">
+                <p style="font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">Description</p>
+                <p style="font-size: 1.1rem; line-height: 1.8;">${item.description}</p>
+              </div>
+
+              <button onclick="handleClaim('${item._id}')" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1.2rem; font-size: 1.2rem; ${item.claimedBy ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${item.claimedBy ? 'disabled' : ''}>
+                <i class="fas fa-hand-holding-heart"></i> ${item.claimedBy ? 'Already Claimed' : 'Claim This Item Now'}
+              </button>
+            </div>
+          </div>
         `;
       } catch (err) {
         console.error(err);
-        itemDetailsContainer.innerHTML = '<p>Error loading item details.</p>';
+        container.innerHTML = '<div class="auth-card" style="text-align:center;"><h2>Error loading item</h2></div>';
       }
     });
+
+    async function handleClaim(itemId) {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please login to claim items!');
+        window.location.href = '../auth/login.html';
+        return;
+      }
+
+      if (!confirm('Are you sure you want to claim this item?')) return;
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/items/${itemId}/claim`, {
+          method: 'PATCH',
+          headers: {
+            'x-auth-token': token,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          alert('Item claimed successfully! Please contact the poster for pickup.');
+          window.location.reload();
+        } else {
+          const data = await response.json();
+          alert(data.error || 'Failed to claim item');
+        }
+      } catch (err) {
+        alert('Network error. Please try again.');
+      }
+    }
   </script>
 </body>
+
 </html>

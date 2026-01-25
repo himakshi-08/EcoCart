@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,65 +8,80 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
   <header>
     <div class="container">
-      <h1><i class="fas fa-recycle"></i> EcoCart</h1>
-      <p>Reduce waste by sharing what you don't need</p>
+      <a href="../index.html" class="logo">
+        <i class="fas fa-recycle"></i>
+        <span>EcoCart</span>
+      </a>
+      <nav id="main-nav">
+        <ul>
+          <li><a href="browse.html" class="active">Browse</a></li>
+          <li class="auth-only"><a href="post.html">Post Item</a></li>
+          <li class="guest-only"><a href="../auth/login.html">Login</a></li>
+          <li class="auth-only"><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <nav>
+  <main style="background: var(--secondary); min-height: 80vh;">
+    <section style="background: var(--primary); color: white; padding: 4rem 0; text-align: center;">
+      <div class="container animate-fade">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Community Marketplace</h2>
+        <p style="opacity: 0.9;">Explore usable items waiting for a new home.</p>
+
+        <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <div
+            style="background: white; border-radius: 50px; padding: 0.5rem 1.5rem; display: flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow);">
+            <i class="fas fa-filter" style="color: var(--primary);"></i>
+            <select id="category"
+              style="border: none; outline: none; background: transparent; font-weight: 600; color: var(--text-dark); cursor: pointer;">
+              <option value="">All Categories</option>
+              <option value="clothing">Clothing</option>
+              <option value="books">Books</option>
+              <option value="electronics">Electronics</option>
+              <option value="furniture">Furniture</option>
+              <option value="toys">Toys</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div
+            style="background: white; border-radius: 50px; padding: 0.5rem 1.5rem; display: flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow); flex-grow: 1; max-width: 400px;">
+            <i class="fas fa-search" style="color: var(--primary);"></i>
+            <input type="text" id="search" placeholder="Search for items..."
+              style="border: none; outline: none; background: transparent; width: 100%; font-weight: 400;">
+          </div>
+        </div>
+      </div>
+    </section>
+
     <div class="container">
-      <ul>
-        <li><a href="browse.html" class="active">Browse Items</a></li>
-        <li><a href="post.html">Post an Item</a></li>
-        <li><a href="#" onclick="logout()">Logout</a></li>
-      </ul>
+      <section class="items-grid" id="items-container">
+        <!-- Items will be loaded here -->
+        <div style="grid-column: 1/-1; text-align: center; padding: 5rem 0;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary);"></i>
+          <p style="margin-top: 1rem; color: var(--text-light);">Gathering treasures for you...</p>
+        </div>
+      </section>
     </div>
-  </nav>
-
-  <main class="container">
-    <section class="search-filter">
-      <h2>You can check for all the items which are already posted in our community.</h2>
-      <select id="category">
-        <option value="">All Categories</option>
-        <option value="clothing">Clothing</option>
-        <option value="books">Books</option>
-        <option value="electronics">Electronics</option>
-        <option value="furniture">Furniture</option>
-        <option value="toys">Toys</option>
-        <option value="other">Other</option>
-      </select>
-      
-    </section>
-
-    <section class="items-grid" id="items-container">
-      <!-- Items will be loaded here -->
-    </section>
   </main>
 
   <footer>
     <div class="container">
-      <p>&copy; 2023 EcoCart. All rights reserved.</p>
-      <p>Help reduce waste by sharing what you don't need.</p>
+      <div class="logo" style="justify-content: center; color: white; margin-bottom: 2rem;">
+        <i class="fas fa-recycle"></i>
+        <span>EcoCart</span>
+      </div>
+      <p>&copy; 2026 EcoCart. All rights reserved.</p>
     </div>
   </footer>
 
   <script src="../js/auth.js"></script>
   <script src="../js/items.js"></script>
-  <script>
-    // Check if user is logged in (token in localStorage)
-    function isLoggedIn() {
-      return !!localStorage.getItem('token');
-    }
-
-    // Hide or show claim buttons based on login status
-    document.addEventListener('DOMContentLoaded', function() {
-      if (!isLoggedIn()) {
-        document.querySelectorAll('.claim-btn').forEach(btn => btn.style.display = 'none');
-      }
-    });
-  </script>
 </body>
+
 </html>

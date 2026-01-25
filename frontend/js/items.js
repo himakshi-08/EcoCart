@@ -1,5 +1,12 @@
-const API_BASE_URL = 'https://ecocart-backend-lcos.onrender.com/api/items';
-const BACKEND_URL = 'https://ecocart-backend-lcos.onrender.com';
+// detect if we are running locally (localhost or file protocol)
+if (typeof window.isLocal === 'undefined') {
+  window.isLocal = window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1' ||
+    window.location.protocol === 'file:';
+}
+const BACKEND_URL = window.isLocal ? 'http://localhost:5000' : 'https://ecocart-backend-lcos.onrender.com';
+const API_BASE_URL = `${BACKEND_URL}/api/items`;
+
 let token = localStorage.getItem('token') || '';
 // Debug mode - set to false for production
 const DEBUG_MODE = true;
@@ -8,13 +15,13 @@ const DEBUG_MODE = true;
 async function loadItems(category = '', searchQuery = '') {
   try {
     if (DEBUG_MODE) console.log('[DEBUG] Loading items...');
-    
+
     let url = API_BASE_URL;
     const params = new URLSearchParams();
-    
+
     if (category) params.append('category', category);
     if (searchQuery) params.append('search', searchQuery);
-    
+
     if (params.toString()) url += `?${params.toString()}`;
 
     if (DEBUG_MODE) console.log('[DEBUG] Request URL:', url);
@@ -58,26 +65,28 @@ function displayItems(items) {
     return;
   }
   container.innerHTML = items.map(item => `
-    <div class="item-card" data-id="${item._id}" data-category="${(item.category || '').toLowerCase()}">
+    <div class="item-card animate-fade" data-id="${item._id}">
       <div class="item-image">
-        ${item.images && item.images.length > 0 ? 
-          `<img src="${item.images[0].startsWith('http') ? item.images[0] : BACKEND_URL + item.images[0]}" alt="${item.title}" loading="lazy">` : 
-          '<div class="no-image"><i class="fas fa-box-open"></i></div>'}
+        ${item.images && item.images.length > 0 ?
+      `<img src="${item.images[0].startsWith('http') ? item.images[0] : BACKEND_URL + item.images[0]}" alt="${item.title}" loading="lazy">` :
+      '<div style="height: 100%; display: flex; align-items: center; justify-content: center; background: var(--accent); color: var(--primary-light);"><i class="fas fa-box-open fa-3x"></i></div>'}
+        <span class="category-tag">${item.category || 'Item'}</span>
       </div>
-      <div class="item-details">
-        <h3>${item.title || ''}</h3>
+      <div class="item-info">
+        <h3>${item.title || 'Untitled Item'}</h3>
         <div class="item-meta">
-          <span class="category-badge">${item.category || ''}</span>
-          <span class="condition">${item.condition || ''}</span>
-          <span class="location"><i class="fas fa-map-marker-alt"></i> ${item.location || ''}</span>
+          <span><i class="fas fa-info-circle"></i> ${item.condition || 'Used'}</span>
+          <span><i class="fas fa-map-marker-alt"></i> ${item.location || 'Local'}</span>
         </div>
-        <p class="item-description">${truncateText(item.description || '', 100)}</p>
-        <div class="item-actions">
-          <button class="btn claim-btn" data-id="${item._id}">
+        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 1.5rem; height: 3rem; overflow: hidden;">
+          ${truncateText(item.description || '', 80)}
+        </p>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-primary claim-btn" data-id="${item._id}" style="flex: 1; padding: 0.6rem; justify-content: center;">
             <i class="fas fa-hand-holding-heart"></i> Claim
           </button>
-          <button class="btn view-details" data-id="${item._id}">
-            <i class="fas fa-info-circle"></i> Details
+          <button class="btn view-details" data-id="${item._id}" style="background: var(--accent); color: var(--primary); padding: 0.6rem;">
+            <i class="fas fa-eye"></i>
           </button>
         </div>
       </div>
@@ -122,7 +131,7 @@ function addItemEventListeners() {
 
 function debounce(func, wait) {
   let timeout;
-  return function() {
+  return function () {
     const context = this, args = arguments;
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(context, args), wait);
@@ -167,10 +176,10 @@ const postItemForm = document.getElementById('post-item-form');
 if (postItemForm) {
   postItemForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const submitBtn = postItemForm.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn.innerHTML;
-    
+
     try {
       // Disable button during submission
       submitBtn.disabled = true;
@@ -179,7 +188,7 @@ if (postItemForm) {
       // Create FormData and append all fields
       const formData = new FormData();
       const fields = ['title', 'description', 'category', 'condition', 'location'];
-      
+
       fields.forEach(field => {
         const element = document.getElementById(field);
         if (element) formData.append(field, element.value);
@@ -236,9 +245,9 @@ function showNotification(message, type = 'info') {
     <i class="fas fa-${type === 'error' ? 'times-circle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
     <span>${message}</span>
   `;
-  
+
   document.body.appendChild(notification);
-  
+
   setTimeout(() => {
     notification.classList.add('fade-out');
     setTimeout(() => notification.remove(), 500);
@@ -259,19 +268,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const initialCategory = urlParams.get('category') || '';
     const initialSearch = urlParams.get('search') || '';
-    
+
     // Set filter values
     const categoryFilter = document.getElementById('category');
     const searchInput = document.getElementById('search');
-    
+
     if (categoryFilter && initialCategory) {
       categoryFilter.value = initialCategory;
     }
-    
+
     if (searchInput && initialSearch) {
       searchInput.value = initialSearch;
     }
-    
+
     // Load items with initial filters
     loadItems(initialCategory, initialSearch);
   }
