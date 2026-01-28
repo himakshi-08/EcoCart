@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | EcoCart</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .stats-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stats-card h4 {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            text-align: left;
+            padding: 1rem;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body style="background: var(--secondary); min-height: 100vh;">
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-recycle"></i>
+                <span>EcoCart Admin</span>
+            </a>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="browse.html">Marketplace</a></li>
+                    <li><a href="hub.html">My Hub</a></li>
+                    <li><a href="#" onclick="logout()" class="btn btn-outline"
+                            style="color:var(--primary); border-color:var(--primary); padding: 0.4rem 1rem;">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 4rem 1rem;">
+        <h1 style="margin-bottom: 3rem;">Control Panel</h1>
+
+        <!-- Stats Grid -->
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 4rem;">
+            <div class="stats-card">
+                <h4>Total Users</h4>
+                <div class="value" id="stat-users">-</div>
+            </div>
+            <div class="stats-card">
+                <h4>Total Items</h4>
+                <div class="value" id="stat-items">-</div>
+            </div>
+            <div class="stats-card">
+                <h4>Claimed Items</h4>
+                <div class="value" id="stat-claimed">-</div>
+            </div>
+            <div class="stats-card">
+                <h4>Active Listings</h4>
+                <div class="value" id="stat-pending">-</div>
+            </div>
+        </div>
+
+        <section>
+            <h2 style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-users" style="color: var(--primary);"></i> User Management
+            </h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                        <!-- Loaded by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+
+</html>

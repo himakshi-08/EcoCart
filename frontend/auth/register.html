@@ -10,36 +10,43 @@
 </head>
 
 <body class="auth-page">
-  <div class="auth-card animate-fade">
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <a href="../index.html" class="logo" style="justify-content: center; font-size: 2rem;">
-        <i class="fas fa-recycle"></i>
-        <span>EcoCart</span>
-      </a>
-      <p style="color: var(--text-light); margin-top: 0.5rem;">Join our community and start sharing.</p>
-    </div>
+  <div class="auth-left">
+    <img src="../assets/auth-bg.png" alt="Eco Community">
+  </div>
+  <div class="auth-right">
+    <div class="auth-card animate-fade">
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <a href="../index.html" class="logo" style="justify-content: center; font-size: 2.2rem;">
+          <i class="fas fa-recycle"></i>
+          <span>EcoCart</span>
+        </a>
+        <h2 style="margin-top: 1.5rem; font-size: 1.5rem; color: var(--primary);">Join EcoCart</h2>
+        <p style="color: var(--text-light); margin-top: 0.5rem;">Start sharing and making a difference today.</p>
+      </div>
 
-    <form id="register-form">
-      <div class="form-group">
-        <label for="register-name">Full Name</label>
-        <input type="text" id="register-name" placeholder="John Doe" required>
-      </div>
-      <div class="form-group">
-        <label for="register-email">Email Address</label>
-        <input type="email" id="register-email" placeholder="name@example.com" required>
-      </div>
-      <div class="form-group">
-        <label for="register-password">Password</label>
-        <input type="password" id="register-password" placeholder="••••••••" required>
-      </div>
-      <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem;">
-        Create My Account
-      </button>
-    </form>
+      <form id="register-form">
+        <div class="form-group">
+          <label for="register-name">Full Name</label>
+          <input type="text" id="register-name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="register-email">Email Address</label>
+          <input type="email" id="register-email" placeholder="name@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary"
+          style="width: 100%; padding: 1.1rem; border-radius: var(--br-md);">
+          Create My Account
+        </button>
+      </form>
 
-    <div style="text-align: center; margin-top: 2rem; font-size: 0.9rem;">
-      <p style="color: var(--text-light);">Already have an account? <a href="login.html"
-          style="color: var(--primary); font-weight: 600; text-decoration: none;">Login here</a></p>
+      <div style="text-align: center; margin-top: 2.5rem; font-size: 0.95rem;">
+        <p style="color: var(--text-light);">Already have an account? <a href="login.html"
+            style="color: var(--primary); font-weight: 700; text-decoration: none;">Login here</a></p>
+      </div>
     </div>
   </div>
 

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body style="background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%); min-height: 100vh;">
+<body style="background: var(--secondary); min-height: 100vh;">
   <header>
     <div class="container">
       <a href="../index.html" class="logo">
@@ -19,6 +19,9 @@
       <nav id="main-nav">
         <ul>
           <li><a href="browse.html">Browse</a></li>
+          <li class="admin-only"><a href="admin.html" style="color: var(--primary); font-weight: bold;">Admin Portal</a>
+          </li>
+          <li class="auth-only"><a href="hub.html">My Hub</a></li>
           <li class="auth-only"><a href="post.html" class="active">Post Item</a></li>
           <li class="auth-only"><a href="#" onclick="logout()">Logout</a></li>
         </ul>
@@ -26,11 +29,16 @@
     </div>
   </header>
 
-  <main class="container" style="padding: 4rem 1rem;">
-    <div class="auth-card animate-fade" style="max-width: 800px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 3rem;">
-        <h2 style="font-size: 2rem; color: var(--primary);">Give Your Item a New Home</h2>
-        <p style="color: var(--text-light);">Provide some details about what you are sharing.</p>
+  <main class="container" style="padding: 5rem 1rem;">
+    <div
+      style="background: var(--white); border-radius: var(--br-lg); padding: 4rem; max-width: 900px; margin: 0 auto; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.02);">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <h1
+          style="font-size: 0.85rem; font-weight: 700; color: var(--accent); letter-spacing: 2px; margin-bottom: 1rem; text-transform: uppercase;">
+          Share the Love</h1>
+        <h2 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">Give Your Item a New Home</h2>
+        <p style="color: var(--text-light); font-size: 1.1rem;">Every item you share helps reduce waste and build
+          community.</p>
       </div>
 
       <form id="post-item-form">
@@ -43,8 +51,7 @@
 
             <div class="form-group">
               <label for="category">Category*</label>
-              <select id="category" required
-                style="width: 100%; padding: 1rem; border: 2px solid var(--accent); border-radius: 12px; outline: none;">
+              <select id="category" required>
                 <option value="">Select a category</option>
                 <option value="clothing">Clothing</option>
                 <option value="books">Books</option>
@@ -57,8 +64,7 @@
 
             <div class="form-group">
               <label for="condition">Condition*</label>
-              <select id="condition" required
-                style="width: 100%; padding: 1rem; border: 2px solid var(--accent); border-radius: 12px; outline: none;">
+              <select id="condition" required>
                 <option value="">Select condition</option>
                 <option value="new">New</option>
                 <option value="like-new">Like New</option>
@@ -77,8 +83,7 @@
           <div class="right-col">
             <div class="form-group">
               <label for="description">Detailed Description*</label>
-              <textarea id="description" required placeholder="Tell us more about the item..."
-                style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid var(--accent); border-radius: 12px; outline: none;"></textarea>
+              <textarea id="description" required placeholder="Tell us more about the item..."></textarea>
             </div>
 
             <div class="form-group">

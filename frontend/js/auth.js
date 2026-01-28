@@ -4,7 +4,7 @@ if (typeof window.isLocal === 'undefined') {
     window.location.hostname === '127.0.0.1' ||
     window.location.protocol === 'file:';
 }
-const AUTH_API_BASE_URL = (window.isLocal ? 'http://localhost:5000' : 'https://ecocart-backend-lcos.onrender.com') + '/api/auth';
+const AUTH_API_BASE_URL = (window.isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com') + '/api/auth';
 
 // Login form
 const loginForm = document.getElementById('login-form');
@@ -86,9 +86,33 @@ function checkAuth() {
   return { token, user };
 }
 
+// Initial UI check
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (token && user) {
+    document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'block');
+    document.querySelectorAll('.guest-only').forEach(el => el.style.display = 'none');
+
+    // Admin only elements
+    if (user.role === 'admin') {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+    } else {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+    }
+  } else {
+    document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.guest-only').forEach(el => el.style.display = 'block');
+    document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+  }
+});
+
 // Logout
 function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
-  window.location.href = '../auth/login.html';
+  // Check if we are in items folder or root
+  const isSubFolder = window.location.pathname.includes('/items/') || window.location.pathname.includes('/auth/');
+  window.location.href = isSubFolder ? '../auth/login.html' : 'auth/login.html';
 }

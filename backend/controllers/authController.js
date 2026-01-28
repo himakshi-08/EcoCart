@@ -29,15 +29,15 @@ exports.register = async (req, res) => {
     }
 
     // Create user
-    const user = await User.create({ 
-      name, 
-      email, 
+    const user = await User.create({
+      name,
+      email,
       password // Will be hashed by the User model's pre-save hook
     });
 
     // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { 
-      expiresIn: '30d' 
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '30d'
     });
 
     res.status(201).json({
@@ -46,15 +46,16 @@ exports.register = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
 
   } catch (err) {
     console.error('Registration error:', err);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: err.message || 'Registration failed' 
+      error: err.message || 'Registration failed'
     });
   }
 };
@@ -81,8 +82,8 @@ exports.login = async (req, res) => {
     }
 
     // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { 
-      expiresIn: '30d' 
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '30d'
     });
 
     res.json({
@@ -91,15 +92,16 @@ exports.login = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
 
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: err.message || 'Login failed' 
+      error: err.message || 'Login failed'
     });
   }
 };

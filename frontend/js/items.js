@@ -4,7 +4,7 @@ if (typeof window.isLocal === 'undefined') {
     window.location.hostname === '127.0.0.1' ||
     window.location.protocol === 'file:';
 }
-const BACKEND_URL = window.isLocal ? 'http://localhost:5000' : 'https://ecocart-backend-lcos.onrender.com';
+const BACKEND_URL = window.isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com';
 const API_BASE_URL = `${BACKEND_URL}/api/items`;
 
 let token = localStorage.getItem('token') || '';
@@ -53,6 +53,70 @@ async function loadItems(category = '', searchQuery = '') {
         </div>
       `;
     }
+  }
+}
+
+/* ========== USER HUB LOADING ========== */
+async function loadUserHub() {
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/items/hub`, {
+      headers: { 'x-auth-token': token }
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Failed to load hub');
+
+    displayHub(data.myPosts, 'my-posts-container', true);
+    displayHub(data.myClaims, 'my-claims-container', false);
+  } catch (err) {
+    console.error('Hub error:', err);
+    showNotification(err.message, 'error');
+  }
+}
+
+function displayHub(items, containerId, isOwner) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  if (!items.length) {
+    container.innerHTML = '<p style="text-align:center; padding: 2rem; color: var(--text-light);">No items found here yet.</p>';
+    return;
+  }
+
+  container.innerHTML = items.map(item => `
+    <div class="item-card animate-fade" style="min-height: auto;">
+      <div class="item-image" style="height: 150px;">
+        <img src="${item.images[0]}" alt="${item.title}" loading="lazy">
+      </div>
+      <div class="item-info" style="padding: 1rem;">
+        <h3 style="font-size: 1.1rem;">${item.title}</h3>
+        <p style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem;">${item.location}</p>
+        <div style="display: flex; gap: 0.5rem;">
+          <a href="item-details.html?id=${item._id}" class="btn" style="padding: 0.5rem; background: var(--accent); color: var(--primary);"><i class="fas fa-eye"></i></a>
+          ${isOwner ? `<button onclick="handleDeleteItem('${item._id}')" class="btn" style="padding: 0.5rem; background: #fee2e2; color: #ef4444;"><i class="fas fa-trash"></i></button>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function handleDeleteItem(id) {
+  if (!confirm('Are you sure you want to remove this item? This cannot be undone.')) return;
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/${id}`, {
+      method: 'DELETE',
+      headers: { 'x-auth-token': token }
+    });
+
+    if (response.ok) {
+      showNotification('Item removed successfully', 'success');
+      loadUserHub();
+    } else {
+      const data = await response.json();
+      throw new Error(data.error || 'Failed to delete');
+    }
+  } catch (err) {
+    showNotification(err.message, 'error');
   }
 }
 
@@ -283,5 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load items with initial filters
     loadItems(initialCategory, initialSearch);
+  }
+
+  if (window.location.pathname.includes('hub.html')) {
+    loadUserHub();
   }
 });

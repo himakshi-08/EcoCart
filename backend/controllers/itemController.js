@@ -70,7 +70,7 @@ exports.createItem = async (req, res, next) => {
       condition,
       location,
       images,
-      postedBy: req.user.id
+      postedBy: req.user
     });
 
     await item.save();
@@ -88,6 +88,7 @@ exports.createItem = async (req, res, next) => {
 exports.getAllItems = async (req, res) => {
   try {
     const items = await Item.find()
+      .sort({ createdAt: -1 })
       .populate('postedBy', 'name')
       .populate('claimedBy', 'name');
     res.json({ success: true, data: items }); // <-- wrap in object
@@ -95,13 +96,71 @@ exports.getAllItems = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+// Get Single Item
+exports.getItem = async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id)
+      .populate('postedBy', 'name email');
+    if (!item) return res.status(404).json({ error: 'Item not found' });
+    res.json({ success: true, data: item });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get items posted or claimed by current user
+exports.getUserHub = async (req, res) => {
+  try {
+    const myPosts = await Item.find({ postedBy: req.user });
+    const myClaims = await Item.find({ claimedBy: req.user });
+    res.json({ success: true, myPosts, myClaims });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Delete Item
+exports.deleteItem = async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return res.status(404).json({ error: 'Item not found' });
+
+    // Check ownership
+    if (!item.postedBy || item.postedBy.toString() !== req.user) {
+      return res.status(401).json({ error: 'Not authorized to delete this item' });
+    }
+
+    // Delete images from Cloudinary (only if they are Cloudinary URLs)
+    if (item.images && item.images.length > 0) {
+      for (const imgUrl of item.images) {
+        try {
+          if (imgUrl.includes('cloudinary.com')) {
+            const parts = imgUrl.split('/');
+            const fileName = parts[parts.length - 1].split('.')[0];
+            const folder = parts[parts.length - 2];
+            const publicId = `ecocart/items/${fileName}`;
+            await cloudinary.uploader.destroy(publicId);
+          }
+        } catch (err) {
+          console.error('Failed to delete image from Cloudinary:', err);
+        }
+      }
+    }
+
+    await item.deleteOne();
+    res.json({ success: true, message: 'Item removed' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Claim Item with validation
 exports.claimItem = async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ error: 'Item not found' });
     if (item.claimedBy) return res.status(400).json({ error: 'Item already claimed' });
-    item.claimedBy = req.user._id;
+    item.claimedBy = req.user;
     await item.save();
     res.json(item);
   } catch (err) {
