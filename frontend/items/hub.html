@@ -18,12 +18,34 @@
             </a>
             <nav id="main-nav">
                 <ul>
-                    <li><a href="browse.html">Browse</a></li>
-                    <li class="admin-only"><a href="admin.html" style="color: var(--primary); font-weight: bold;">Admin
-                            Portal</a></li>
-                    <li><a href="post.html">Post Item</a></li>
-                    <li><a href="hub.html" class="active">My Hub</a></li>
-                    <li><a href="#" onclick="logout()">Logout</a></li>
+                    <li><a href="browse.html">Browse Items</a></li>
+                    <li class="admin-only"><a href="admin.html">Admin Portal</a></li>
+                    <li class="guest-only"><a href="../auth/login.html">Login</a></li>
+
+                    <li class="auth-only">
+                        <div class="user-menu" onclick="toggleDropdown()">
+                            <div class="user-avatar" id="user-avatar-initial">U</div>
+                            <div class="profile-dropdown" id="profile-dropdown">
+                                <div class="dropdown-header">
+                                    <div class="avatar-small" id="user-avatar-small">U</div>
+                                    <div class="dropdown-user-info">
+                                        <h4 id="user-name-display">Username</h4>
+                                        <p id="user-email-display">user@example.com</p>
+                                    </div>
+                                </div>
+                                <div class="dropdown-body">
+                                    <a href="hub.html" class="dropdown-item active"><i class="fas fa-user-circle"></i>
+                                        Your Profile</a>
+                                    <a href="hub.html" class="dropdown-item"><i class="fas fa-history"></i> My Donated
+                                        Items</a>
+                                    <a href="post.html" class="dropdown-item"><i class="fas fa-plus-circle"></i> Post
+                                        New Treasure</a>
+                                    <a href="#" onclick="logout()" class="dropdown-item"><i
+                                            class="fas fa-sign-out-alt"></i> Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -92,6 +114,29 @@
         </div>
     </footer>
 
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.addEventListener('click', function (e) {
+            if (!e.target.closest('.user-menu')) {
+                document.getElementById('profile-dropdown').style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.name) {
+                const initial = user.name.charAt(0).toUpperCase();
+                document.getElementById('user-avatar-initial').textContent = initial;
+                document.getElementById('user-avatar-small').textContent = initial;
+                document.getElementById('user-name-display').textContent = user.name;
+                document.getElementById('user-email-display').textContent = user.email;
+            }
+        });
+    </script>
     <script src="../js/auth.js"></script>
     <script src="../js/items.js"></script>
 </body>
