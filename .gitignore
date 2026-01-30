@@ -29,5 +29,3 @@ Thumbs.db
 
 # Uploads
 backend/uploads/
-frontend/assets/*.png
-!frontend/assets/hero-bg.png
