@@ -2,7 +2,7 @@
 **Sustainable Community Marketplace**
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://ecocartproject.onrender.com)
-[![Status](https://img.shields.io/badge/Status-Deployed-success)](https://ecocartproject.onrender.com)
+
 
 EcoCart is a community-driven platform designed to promote the circular economy. It connects people who have usable household items to give away with those who need them—reducing waste and building community connections.
 
