@@ -1,0 +1,12 @@
+{
+    "name": "ecocart-root",
+    "version": "1.0.0",
+    "scripts": {
+        "install-backend": "cd backend && npm install",
+        "start": "cd backend && node server.js",
+        "build": "npm run install-backend"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    }
+}
