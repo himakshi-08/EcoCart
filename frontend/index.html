@@ -188,7 +188,7 @@
   <script src="js/auth.js"></script>
   <script>
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
-    const BACKEND_URL = isLocal ? 'http://localhost:5001' : ''+window.location.origin+'';
+    const BACKEND_URL = isLocal ? 'http://localhost:5001' : '' + window.location.origin + '';
 
     // Back to Top logic
     const backToTopBtn = document.getElementById('backToTop');
@@ -317,7 +317,7 @@
           <div class="item-card animate-fade">
             <div class="item-image">
               ${item.images && item.images.length > 0 ?
-            `<img src="${item.images[0]}" alt="${item.title}">` :
+            `<img src="${item.images[0].startsWith('http') ? item.images[0] : BACKEND_URL + item.images[0]}" alt="${item.title}">` :
             '<div style="height: 100%; display: flex; align-items: center; justify-content: center; background: var(--primary-ultra-light); color: var(--primary);"><i class="fas fa-box-open fa-3x"></i></div>'}
               <span class="category-tag">${item.category}</span>
             </div>

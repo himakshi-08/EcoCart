@@ -103,7 +103,10 @@ function displayHub(items, containerId, isOwner) {
   container.innerHTML = items.map(item => `
     <div class="item-card animate-fade" style="min-height: auto;">
       <div class="item-image" style="height: 150px;">
-        <img src="${item.images[0]}" alt="${item.title}" loading="lazy">
+        ${item.images && item.images.length > 0 ?
+      `<img src="${item.images[0].startsWith('http') ? item.images[0] : BACKEND_URL + item.images[0]}" alt="${item.title}" loading="lazy">` :
+      '<div style="height: 100%; display: flex; align-items: center; justify-content: center; background: var(--accent); color: var(--primary-light);"><i class="fas fa-box-open fa-2x"></i></div>'
+    }
       </div>
       <div class="item-info" style="padding: 1rem;">
         <h3 style="font-size: 1.1rem;">${item.title}</h3>
