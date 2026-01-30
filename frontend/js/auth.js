@@ -4,7 +4,7 @@ if (typeof window.isLocal === 'undefined') {
     window.location.hostname === '127.0.0.1' ||
     window.location.protocol === 'file:';
 }
-const AUTH_API_BASE_URL = (window.isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com') + '/api/auth';
+const AUTH_API_BASE_URL = (window.isLocal ? 'http://localhost:5001' : window.location.origin) + '/api/auth';
 
 // Login form
 const loginForm = document.getElementById('login-form');

@@ -4,7 +4,7 @@ if (typeof window.isLocal === 'undefined') {
     window.location.hostname === '127.0.0.1' ||
     window.location.protocol === 'file:';
 }
-const BACKEND_URL = window.isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com';
+const BACKEND_URL = window.isLocal ? 'http://localhost:5001' : window.location.origin;
 const API_BASE_URL = `${BACKEND_URL}/api/items`;
 
 let token = localStorage.getItem('token') || '';
