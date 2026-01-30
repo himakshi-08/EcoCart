@@ -3,14 +3,19 @@ const ADMIN_API_URL = (isLocal ? 'http://localhost:5001' : 'https://ecocart-back
 const token = localStorage.getItem('token');
 const user = JSON.parse(localStorage.getItem('user'));
 
+async function loadAdminDashboard() {
+    loadStats();
+    loadUsers();
+    loadAdminItems();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     if (!token || !user || user.role !== 'admin') {
         window.location.href = '../auth/login.html';
         return;
     }
 
-    loadStats();
-    loadUsers();
+    loadAdminDashboard();
 });
 
 async function loadStats() {
@@ -70,10 +75,71 @@ async function deleteUser(id) {
             alert('User removed successfully');
             loadStats();
             loadUsers();
+            loadAdminItems();
         } else {
             alert(data.error);
         }
     } catch (err) {
         alert('Failed to delete user');
     }
+}
+
+async function loadAdminItems() {
+    const tbody = document.getElementById('item-table-body');
+    if (!tbody) return;
+
+    try {
+        // Fetch ALL items including claimed ones
+        const res = await fetch(`${window.BACKEND_URL || (isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com')}/api/items?includeClaimed=true`, {
+            headers: { 'x-auth-token': token }
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+
+        tbody.innerHTML = data.data.map(item => `
+            <tr>
+                <td style="font-weight: 600;">${item.title}</td>
+                <td>${item.postedBy ? item.postedBy.name : 'Unknown'}</td>
+                <td>
+                    <span class="category-tag" style="position:static; background:${item.claimedBy ? '#fee2e2' : '#dcfce7'}; color:${item.claimedBy ? '#ef4444' : '#166534'};">
+                        ${item.claimedBy ? 'Claimed' : 'Available'}
+                    </span>
+                </td>
+                <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                <td>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <a href="item-details.html?id=${item._id}" class="btn" style="padding: 0.5rem; background: var(--accent); color: var(--primary);"><i class="fas fa-eye"></i></a>
+                        <button onclick="handleDeleteItem('${item._id}')" class="btn" style="padding: 0.5rem; background: #fee2e2; color: #ef4444;"><i class="fas fa-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--error);">${err.message}</td></tr>`;
+    }
+}
+
+// Map handleDeleteItem global function if not loaded
+if (typeof window.handleDeleteItem === 'undefined') {
+    window.handleDeleteItem = async function (id) {
+        if (!confirm('Are you sure you want to remove this item? (Admin Action)')) return;
+
+        try {
+            const res = await fetch(`${window.BACKEND_URL || (isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com')}/api/items/${id}`, {
+                method: 'DELETE',
+                headers: { 'x-auth-token': token }
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                alert('Item removed successfully');
+                loadStats();
+                loadAdminItems();
+            } else {
+                alert(data.error);
+            }
+        } catch (err) {
+            alert('Failed to delete item');
+        }
+    };
 }

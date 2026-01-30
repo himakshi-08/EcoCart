@@ -18,9 +18,10 @@
       </a>
       <nav id="main-nav">
         <ul>
-          <li><a href="browse.html">Browse Items</a></li>
-          <li class="admin-only"><a href="admin.html">Admin Portal</a></li>
-          <li class="guest-only"><a href="../auth/login.html">Login</a></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About Us</a></li>
+          <li><a href="../index.html#how">How It Works</a></li>
+          <li><a href="../contact.html">Contact Us</a></li>
 
           <li class="auth-only">
             <div class="user-menu" onclick="toggleDropdown()">
@@ -34,6 +35,9 @@
                   </div>
                 </div>
                 <div class="dropdown-body">
+                  <a href="../dashboard.html" class="dropdown-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                  <a href="admin.html" class="dropdown-item admin-only" style="display: none;"><i
+                      class="fas fa-user-shield"></i> Admin Panel</a>
                   <a href="hub.html" class="dropdown-item"><i class="fas fa-user-circle"></i> Your Profile</a>
                   <a href="hub.html" class="dropdown-item"><i class="fas fa-history"></i> My Donated Items</a>
                   <a href="post.html" class="dropdown-item"><i class="fas fa-plus-circle"></i> Post New Treasure</a>
@@ -62,9 +66,44 @@
     </div>
   </main>
 
-  <footer>
+  <footer class="professional-footer">
     <div class="container">
-      <p>&copy; 2026 EcoCart. All rights reserved.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="logo">
+            <i class="fas fa-recycle" style="color: var(--primary-light);"></i>
+            <span>EcoCart</span>
+          </a>
+          <p>Building a sustainable future through community sharing and zero-waste living.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="browse.html">Browse Items</a></li>
+            <li><a href="post.html">Give Something</a></li>
+            <li><a href="../index.html#how">How it Works</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul class="footer-links">
+            <li><a href="../about.html">About Us</a></li>
+            <li><a href="../contact.html">Contact Us</a></li>
+            <li><a href="../dashboard.html">Dashboard</a></li>
+            <li><a href="hub.html">My Profile</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 EcoCart. All rights reserved. Premium Sharing Platform</p>
+      </div>
     </div>
   </footer>
 
@@ -106,6 +145,9 @@
       const id = params.get('id');
       const container = document.getElementById('item-details');
 
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const token = localStorage.getItem('token');
+
       if (!id) {
         container.innerHTML = '<div class="auth-card" style="text-align:center;"><h2>Item not found</h2></div>';
         return;
@@ -126,6 +168,10 @@
           imageUrl = `${BACKEND_URL}${imageUrl}`;
         }
 
+        const isOwner = token && item.postedBy && item.postedBy._id === user.id;
+        const isAdmin = token && user.role === 'admin';
+        const showDelete = isOwner || isAdmin;
+
         container.innerHTML = `
           <div style="background: white; border-radius: 30px; overflow: hidden; box-shadow: var(--shadow); display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
             <div style="height: 450px; background: var(--accent); display: flex; align-items: center; justify-content: center;">
@@ -133,7 +179,13 @@
             `<img src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover;">` :
             '<i class="fas fa-box-open fa-5x" style="color: var(--primary-light);"></i>'}
             </div>
-            <div style="padding: 3rem;">
+            <div style="padding: 3rem; position: relative;">
+              ${showDelete ? `
+                <button onclick="handleDeleteItem('${item._id}')" style="position: absolute; top: 1.5rem; right: 1.5rem; background: #fee2e2; color: #ef4444; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;" title="Delete Item">
+                    <i class="fas fa-trash"></i>
+                </button>
+              ` : ''}
+              
               <span class="category-tag" style="position: static; display: inline-block; margin-bottom: 1rem;">${item.category}</span>
               <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary);">${item.title}</h1>
               
@@ -151,6 +203,11 @@
               <div style="margin-bottom: 2.5rem;">
                 <p style="font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">Description</p>
                 <p style="font-size: 1.1rem; line-height: 1.8;">${item.description}</p>
+              </div>
+
+              <div style="margin-bottom: 1rem;">
+                  <p style="font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">Posted By</p>
+                  <p style="font-weight: 600;">${item.postedBy ? item.postedBy.name : 'Unknown'}</p>
               </div>
 
               <button onclick="handleClaim('${item._id}')" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1.2rem; font-size: 1.2rem; ${item.claimedBy ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${item.claimedBy ? 'disabled' : ''}>
@@ -193,6 +250,28 @@
         }
       } catch (err) {
         alert('Network error. Please try again.');
+      }
+    }
+
+    async function handleDeleteItem(itemId) {
+      if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) return;
+
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/items/${itemId}`, {
+          method: 'DELETE',
+          headers: { 'x-auth-token': token }
+        });
+
+        if (res.ok) {
+          alert('Item deleted successfully.');
+          window.location.href = 'browse.html';
+        } else {
+          const data = await res.json();
+          alert(data.error || 'Failed to delete item');
+        }
+      } catch (err) {
+        alert('Error deleting item');
       }
     }
   </script>

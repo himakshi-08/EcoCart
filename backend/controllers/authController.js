@@ -35,8 +35,8 @@ exports.register = async (req, res) => {
       password // Will be hashed by the User model's pre-save hook
     });
 
-    // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    // Generate token with role
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '30d'
     });
 
@@ -81,8 +81,8 @@ exports.login = async (req, res) => {
       return res.status(400).json({ error: 'Invalid credentials' });
     }
 
-    // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    // Generate token with role
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '30d'
     });
 

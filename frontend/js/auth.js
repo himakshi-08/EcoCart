@@ -30,7 +30,7 @@ if (loginForm) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         // Show success and redirect
-        window.location.href = window.isLocal ? '/frontend/items/browse.html' : '../items/browse.html';
+        window.location.href = '../items/browse.html';
       } else {
         alert(data.error || 'Login failed. Please check your credentials.');
       }
@@ -64,7 +64,7 @@ if (registerForm) {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        window.location.href = isLocal ? '/frontend/items/browse.html' : '../items/browse.html';
+        window.location.href = '../items/browse.html';
       } else {
         alert(data.error || 'Registration failed. Try a different email.');
       }

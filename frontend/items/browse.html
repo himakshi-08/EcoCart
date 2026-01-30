@@ -18,9 +18,12 @@
       </a>
       <nav id="main-nav">
         <ul>
-          <li><a href="browse.html" class="active">Browse Items</a></li>
-          <li class="admin-only"><a href="admin.html">Admin Portal</a></li>
-          <li class="guest-only"><a href="../auth/login.html">Login</a></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About Us</a></li>
+          <li><a href="../index.html#how">How It Works</a></li>
+          <li><a href="../contact.html">Contact Us</a></li>
+          <li class="guest-only"><a href="../auth/login.html" class="btn btn-login">Login</a></li>
+          <li class="guest-only"><a href="../auth/register.html" class="btn btn-signup">Sign Up</a></li>
 
           <li class="auth-only">
             <div class="user-menu" onclick="toggleDropdown()">
@@ -34,6 +37,9 @@
                   </div>
                 </div>
                 <div class="dropdown-body">
+                  <a href="../dashboard.html" class="dropdown-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                  <a href="admin.html" class="dropdown-item admin-only" style="display: none;"><i
+                      class="fas fa-user-shield"></i> Admin Panel</a>
                   <a href="hub.html" class="dropdown-item"><i class="fas fa-user-circle"></i> Your Profile</a>
                   <a href="hub.html" class="dropdown-item"><i class="fas fa-history"></i> My Donated Items</a>
                   <a href="post.html" class="dropdown-item"><i class="fas fa-plus-circle"></i> Post New Treasure</a>
@@ -98,13 +104,44 @@
     </div>
   </main>
 
-  <footer>
+  <footer class="professional-footer">
     <div class="container">
-      <div class="logo" style="justify-content: center; color: white; margin-bottom: 2rem;">
-        <i class="fas fa-recycle"></i>
-        <span>EcoCart</span>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="logo">
+            <i class="fas fa-recycle" style="color: var(--primary-light);"></i>
+            <span>EcoCart</span>
+          </a>
+          <p>Building a sustainable future through community sharing and zero-waste living.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="browse.html">Browse Items</a></li>
+            <li><a href="post.html">Give Something</a></li>
+            <li><a href="../index.html#how">How it Works</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul class="footer-links">
+            <li><a href="../about.html">About Us</a></li>
+            <li><a href="../contact.html">Contact Us</a></li>
+            <li><a href="../dashboard.html">Dashboard</a></li>
+            <li><a href="hub.html">My Profile</a></li>
+          </ul>
+        </div>
       </div>
-      <p>&copy; 2026 EcoCart. All rights reserved.</p>
+      <div class="footer-bottom">
+        <p>&copy; 2026 EcoCart. All rights reserved. Premium Sharing Platform</p>
+      </div>
     </div>
   </footer>
 

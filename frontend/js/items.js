@@ -59,7 +59,8 @@ async function loadItems(category = '', searchQuery = '') {
 /* ========== USER HUB LOADING ========== */
 async function loadUserHub() {
   try {
-    const response = await fetch(`${BACKEND_URL}/api/items/hub`, {
+    // Include claimed items for the user hub
+    const response = await fetch(`${BACKEND_URL}/api/items/hub?includeClaimed=true`, {
       headers: { 'x-auth-token': token }
     });
     const data = await response.json();
@@ -67,6 +68,17 @@ async function loadUserHub() {
 
     displayHub(data.myPosts, 'my-posts-container', true);
     displayHub(data.myClaims, 'my-claims-container', false);
+
+    // Update stats if elements exist
+    const sharedCount = data.myPosts.length;
+    const wasteSaved = sharedCount * 3; // roughly 3kg per item average
+
+    const sharedEl = document.getElementById('hub-stat-shared');
+    const wasteEl = document.getElementById('hub-stat-waste'); // Corrected ID
+
+    if (sharedEl) sharedEl.textContent = sharedCount;
+    if (wasteEl) wasteEl.textContent = `${wasteSaved}kg`;
+
   } catch (err) {
     console.error('Hub error:', err);
     showNotification(err.message, 'error');
@@ -110,7 +122,16 @@ async function handleDeleteItem(id) {
 
     if (response.ok) {
       showNotification('Item removed successfully', 'success');
-      loadUserHub();
+      // Refresh the appropriate view
+      if (window.location.pathname.includes('hub.html')) {
+        loadUserHub();
+      } else if (window.location.pathname.includes('admin.html')) {
+        if (typeof loadAdminDashboard === 'function') loadAdminDashboard();
+      } else if (window.location.pathname.includes('dashboard.html')) {
+        if (typeof loadDashboardData === 'function') loadDashboardData();
+      } else {
+        loadItems();
+      }
     } else {
       const data = await response.json();
       throw new Error(data.error || 'Failed to delete');
@@ -146,9 +167,14 @@ function displayItems(items) {
           ${truncateText(item.description || '', 80)}
         </p>
         <div style="display: flex; gap: 0.5rem;">
-          <button class="btn btn-primary claim-btn" data-id="${item._id}" style="flex: 1; padding: 0.6rem; justify-content: center;">
-            <i class="fas fa-hand-holding-heart"></i> Claim
-          </button>
+          ${item.claimedBy ?
+      `<button class="btn btn-primary" style="flex: 1; padding: 0.6rem; justify-content: center; opacity: 0.6; cursor: not-allowed;" disabled>
+              <i class="fas fa-check-circle"></i> Claimed
+            </button>` :
+      `<button class="btn btn-primary claim-btn" data-id="${item._id}" style="flex: 1; padding: 0.6rem; justify-content: center;">
+              <i class="fas fa-hand-holding-heart"></i> Claim
+            </button>`
+    }
           <button class="btn view-details" data-id="${item._id}" style="background: var(--accent); color: var(--primary); padding: 0.6rem;">
             <i class="fas fa-eye"></i>
           </button>

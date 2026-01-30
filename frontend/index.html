@@ -18,11 +18,12 @@
       </a>
       <nav id="main-nav">
         <ul>
-          <li><a href="items/browse.html">Browse Items</a></li>
-          <li class="admin-only"><a href="items/admin.html">Admin Portal</a></li>
-          <li class="guest-only"><a href="auth/login.html">Login</a></li>
-          <li class="guest-only"><a href="auth/register.html" class="btn btn-primary"
-              style="padding: 0.6rem 2rem; color: white;">Join Now</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="index.html#how">How It Works</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li class="guest-only"><a href="auth/login.html" class="btn btn-login">Login</a></li>
+          <li class="guest-only"><a href="auth/register.html" class="btn btn-signup">Sign Up</a></li>
 
           <li class="auth-only">
             <div class="user-menu" onclick="toggleDropdown()">
@@ -36,11 +37,14 @@
                   </div>
                 </div>
                 <div class="dropdown-body">
-                  <a href="items/hub.html" class="dropdown-item"><i class="fas fa-user-circle"></i> Your Profile</a>
-                  <a href="items/hub.html" class="dropdown-item"><i class="fas fa-history"></i> My Donated Items</a>
-                  <a href="items/post.html" class="dropdown-item"><i class="fas fa-plus-circle"></i> Post New
-                    Treasure</a>
-                  <a href="#" onclick="logout()" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                  <a href="dashboard.html" class="dropdown-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                  <a href="items/admin.html" class="dropdown-item admin-only" style="display: none;"><i
+                      class="fas fa-user-shield"></i> Admin Panel</a>
+                  <a href="items/hub.html" class="dropdown-item"><i class="fas fa-user-circle"></i> Profile</a>
+                  <a href="items/post.html" class="dropdown-item"><i class="fas fa-plus-circle"></i> Post Item</a>
+                  <a href="#" onclick="logout()" class="dropdown-item"
+                    style="color: #ef4444; border-top: 1px solid var(--light-gray);"><i class="fas fa-sign-out-alt"></i>
+                    Logout</a>
                 </div>
               </div>
             </div>
@@ -52,32 +56,47 @@
 
   <section class="hero">
     <div class="container hero-grid">
+      <!-- Image on the Left (As requested to be like the start) -->
       <div class="hero-image-side animate-fade">
-        <img src="assets/community-illust.jpg" alt="Eco Sharing Community">
+        <div class="carousel-container">
+          <div class="carousel-slides" id="carouselSlides">
+            <div class="carousel-slide">
+              <img src="assets/community-illust.jpg" alt="Eco Sharing Community">
+            </div>
+            <div class="carousel-slide">
+              <img src="https://i.pinimg.com/736x/a9/2c/d2/a92cd273f5b7cb01b81eacd0d26533e0.jpg"
+                alt="Sustainable Living">
+            </div>
+            <div class="carousel-slide">
+              <img src="https://i.pinimg.com/1200x/df/7e/c4/df7ec4e9760056940cb0ad9b7ea85fc4.jpg"
+                alt="Join the Movement">
+            </div>
+          </div>
+          <button class="carousel-btn prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-dots" id="carouselDots">
+            <!-- Dots added by JS -->
+          </div>
+        </div>
       </div>
+
+      <!-- Text on the Right -->
       <div class="hero-content-side animate-fade">
         <span class="hero-tag">Join Our Growing Eco Community</span>
         <h2>Share Items<br>Save the Planet</h2>
         <p>Reduce waste and save money by sharing household items with neighbors. Join thousands of people making their
           community better, one item at a time.</p>
-        <div class="hero-btns" style="display: flex; gap: 1.2rem;">
-          <a href="items/browse.html" class="btn btn-primary" style="padding: 1rem 2.8rem;">Explore Items</a>
-          <a href="auth/register.html" class="btn btn-outline" style="padding: 1rem 2.8rem; background: white;">Give an
-            Item</a>
-        </div>
-
-        <div class="slider-dots" style="margin-top: 4rem; display: flex; gap: 0.8rem;">
-          <span class="dot active"
-            style="width: 25px; height: 10px; border-radius: 50px; background: var(--primary);"></span>
-          <span class="dot" style="width: 10px; height: 10px; border-radius: 50%; background: #ddd;"></span>
-          <span class="dot" style="width: 10px; height: 10px; border-radius: 50%; background: #ddd;"></span>
+        <div class="hero-btns">
+          <a href="items/browse.html" class="btn btn-primary">Explore Items</a>
+          <a href="items/post.html" class="btn btn-outline" style="background: white;">Give an Item</a>
         </div>
       </div>
     </div>
+    <!-- NO IMPACT STATS BAR HERE AS REQUESTED -->
   </section>
 
-  <main class="container" style="padding: 6rem 0;">
-    <div class="section-header">
+  <main class="container" style="padding: 8rem 0;">
+    <div class="section-header" id="how">
       <h2 class="section-title">How EcoCart Works</h2>
       <p class="section-subtitle">Small actions lead to big changes. Here is how you can participate in the circular
         economy.</p>
@@ -108,13 +127,13 @@
     </div>
 
     <!-- Recent Finds Section -->
-    <div style="margin-top: 10rem; margin-bottom: 4rem;">
+    <div style="margin-top: 10rem;">
       <div class="browse-header">
         <div class="browse-title-group">
-          <h2>Recent Treasures</h2>
-          <p>Latest items shared by your community members.</p>
+          <h2 style="font-size: 2.5rem; color: var(--primary);">Recent Treasures</h2>
+          <p style="color: var(--text-light);">Latest items shared by your community members.</p>
         </div>
-        <a href="items/browse.html" class="btn btn-outline" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">View All
+        <a href="items/browse.html" class="btn btn-outline">View All
           <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i></a>
       </div>
       <div id="recent-items-container" class="items-grid">
@@ -123,39 +142,136 @@
     </div>
   </main>
 
-  <footer>
+  <footer class="professional-footer">
     <div class="container">
-      <div class="logo" style="justify-content: center; color: white; margin-bottom: 2rem;">
-        <i class="fas fa-recycle"></i>
-        <span>EcoCart</span>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <i class="fas fa-recycle" style="color: var(--primary-light);"></i>
+            <span>EcoCart</span>
+          </a>
+          <p>Building a sustainable future through community sharing and zero-waste living.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="items/browse.html">Browse Items</a></li>
+            <li><a href="items/post.html">Give Something</a></li>
+            <li><a href="#how">How it Works</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="items/hub.html">My Profile</a></li>
+          </ul>
+        </div>
       </div>
-      <p>&copy; 2026 EcoCart Sustainability Platform. All rights reserved.</p>
-      <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
-        <a href="#" style="color: white; opacity: 0.6;"><i class="fab fa-instagram"></i></a>
-        <a href="#" style="color: white; opacity: 0.6;"><i class="fab fa-twitter"></i></a>
-        <a href="#" style="color: white; opacity: 0.6;"><i class="fab fa-facebook"></i></a>
+      <div class="footer-bottom">
+        <p>&copy; 2026 EcoCart. All rights reserved. Premium Sharing Platform</p>
       </div>
     </div>
   </footer>
+
+  <button id="backToTop" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
 
   <script src="js/auth.js"></script>
   <script>
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
     const BACKEND_URL = isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com';
 
-    function toggleDropdown() {
-      const dropdown = document.getElementById('profile-dropdown');
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    // Back to Top logic
+    const backToTopBtn = document.getElementById('backToTop');
+    window.onscroll = function () {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTopBtn.style.display = 'flex';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    };
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Close dropdown when clicking outside
+    // Carousel class
+    class Carousel {
+      constructor() {
+        this.slides = document.getElementById('carouselSlides');
+        this.dotsContainer = document.getElementById('carouselDots');
+        this.prevBtn = document.getElementById('prevSlide');
+        this.nextBtn = document.getElementById('nextSlide');
+        this.currentSlide = 0;
+        this.totalSlides = document.querySelectorAll('.carousel-slide').length;
+
+        if (this.slides) this.init();
+      }
+
+      init() {
+        if (!this.dotsContainer) return;
+        for (let i = 0; i < this.totalSlides; i++) {
+          const dot = document.createElement('span');
+          dot.classList.add('dot');
+          if (i === 0) dot.classList.add('active');
+          dot.addEventListener('click', () => this.goToSlide(i));
+          this.dotsContainer.appendChild(dot);
+        }
+
+        this.prevBtn.addEventListener('click', () => this.prev());
+        this.nextBtn.addEventListener('click', () => this.next());
+
+        setInterval(() => this.next(), 6000);
+      }
+
+      update() {
+        if (!this.slides) return;
+        this.slides.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === this.currentSlide);
+        });
+      }
+
+      next() {
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+        this.update();
+      }
+
+      prev() {
+        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+        this.update();
+      }
+
+      goToSlide(index) {
+        this.currentSlide = index;
+        this.update();
+      }
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('profile-dropdown');
+      if (dropdown) dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
     window.addEventListener('click', function (e) {
       if (!e.target.closest('.user-menu')) {
-        document.getElementById('profile-dropdown').style.display = 'none';
+        const dropdown = document.getElementById('profile-dropdown');
+        if (dropdown) dropdown.style.display = 'none';
       }
     });
 
     document.addEventListener('DOMContentLoaded', function () {
+      new Carousel();
       const token = localStorage.getItem('token');
       const user = JSON.parse(localStorage.getItem('user') || '{}');
 
@@ -163,13 +279,17 @@
         document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'block');
         document.querySelectorAll('.guest-only').forEach(el => el.style.display = 'none');
 
-        // Populate user info
         if (user.name) {
           const initial = user.name.charAt(0).toUpperCase();
-          document.getElementById('user-avatar-initial').textContent = initial;
-          document.getElementById('user-avatar-small').textContent = initial;
-          document.getElementById('user-name-display').textContent = user.name;
-          document.getElementById('user-email-display').textContent = user.email;
+          const avatarMain = document.getElementById('user-avatar-initial');
+          const avatarSmall = document.getElementById('user-avatar-small');
+          if (avatarMain) avatarMain.textContent = initial;
+          if (avatarSmall) avatarSmall.textContent = initial;
+
+          const nameDisplay = document.getElementById('user-name-display');
+          const emailDisplay = document.getElementById('user-email-display');
+          if (nameDisplay) nameDisplay.textContent = user.name;
+          if (emailDisplay) emailDisplay.textContent = user.email;
         }
       } else {
         document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'none');
@@ -180,7 +300,42 @@
     });
 
     async function loadRecentItems() {
-      // ... (existing code remains same)
+      const container = document.getElementById('recent-items-container');
+      if (!container) return;
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/items`);
+        const result = await response.json();
+        const items = result.data || result;
+
+        if (!items || items.length === 0) {
+          container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-light);">No items shared yet. Be the first!</p>';
+          return;
+        }
+
+        container.innerHTML = items.slice(0, 4).map(item => `
+          <div class="item-card animate-fade">
+            <div class="item-image">
+              ${item.images && item.images.length > 0 ?
+            `<img src="${item.images[0]}" alt="${item.title}">` :
+            '<div style="height: 100%; display: flex; align-items: center; justify-content: center; background: var(--primary-ultra-light); color: var(--primary);"><i class="fas fa-box-open fa-3x"></i></div>'}
+              <span class="category-tag">${item.category}</span>
+            </div>
+            <div class="item-info">
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary);">${item.title}</h3>
+              <div class="item-meta">
+                <span><i class="fas fa-info-circle"></i> ${item.condition}</span>
+                <span><i class="fas fa-map-marker-alt"></i> ${item.location}</span>
+              </div>
+              <a href="items/item-details.html?id=${item._id}" class="btn btn-outline" style="width: 100%; justify-content: center; margin-top: 1rem;">View Details</a>
+            </div>
+          </div>
+        `).join('');
+
+      } catch (err) {
+        console.error('Error loading recent items:', err);
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--accent); padding: 2rem;">Unable to load recent treasures.</p>';
+      }
     }
 
     function logout() {

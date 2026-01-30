@@ -18,9 +18,12 @@
       </a>
       <nav id="main-nav">
         <ul>
-          <li><a href="browse.html">Browse Items</a></li>
-          <li class="admin-only"><a href="admin.html">Admin Portal</a></li>
-          <li class="guest-only"><a href="../auth/login.html">Login</a></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About Us</a></li>
+          <li><a href="../index.html#how">How It Works</a></li>
+          <li><a href="../contact.html">Contact Us</a></li>
+          <li class="guest-only"><a href="../auth/login.html" class="btn btn-login">Login</a></li>
+          <li class="guest-only"><a href="../auth/register.html" class="btn btn-signup">Sign Up</a></li>
 
           <li class="auth-only">
             <div class="user-menu" onclick="toggleDropdown()">
@@ -34,11 +37,12 @@
                   </div>
                 </div>
                 <div class="dropdown-body">
-                  <a href="hub.html" class="dropdown-item"><i class="fas fa-user-circle"></i> Your Profile</a>
-                  <a href="hub.html" class="dropdown-item"><i class="fas fa-history"></i> My Donated Items</a>
-                  <a href="post.html" class="dropdown-item active"><i class="fas fa-plus-circle"></i> Post New
-                    Treasure</a>
-                  <a href="#" onclick="logout()" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                  <a href="../dashboard.html" class="dropdown-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                  <a href="hub.html" class="dropdown-item"><i class="fas fa-user-circle"></i> Profile</a>
+                  <a href="post.html" class="dropdown-item active"><i class="fas fa-plus-circle"></i> Post Item</a>
+                  <a href="#" onclick="logout()" class="dropdown-item"
+                    style="color: #ef4444; border-top: 1px solid var(--light-gray);"><i class="fas fa-sign-out-alt"></i>
+                    Logout</a>
                 </div>
               </div>
             </div>
@@ -48,7 +52,7 @@
     </div>
   </header>
 
-  <main class="container" style="padding: 5rem 1rem;">
+  <main class="container" style="padding: 3rem 1rem;">
     <div
       style="background: var(--white); border-radius: var(--br-lg); padding: 4rem; max-width: 900px; margin: 0 auto; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.02);">
       <div style="text-align: center; margin-bottom: 4rem;">
@@ -122,7 +126,7 @@
         </div>
 
         <div style="margin-top: 3rem; text-align: center;">
-          <button type="submit" class="btn btn-primary" style="padding: 1rem 4rem; font-size: 1.1rem;">
+          <button type="submit" class="btn btn-primary">
             <i class="fas fa-paper-plane"></i> Publish My Listing
           </button>
         </div>
@@ -130,9 +134,44 @@
     </div>
   </main>
 
-  <footer>
+  <footer class="professional-footer">
     <div class="container">
-      <p>&copy; 2026 EcoCart. All rights reserved.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="logo">
+            <i class="fas fa-recycle" style="color: var(--primary-light);"></i>
+            <span>EcoCart</span>
+          </a>
+          <p>Building a sustainable future through community sharing and zero-waste living.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="browse.html">Browse Items</a></li>
+            <li><a href="post.html">Give Something</a></li>
+            <li><a href="../index.html#how">How it Works</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul class="footer-links">
+            <li><a href="../about.html">About Us</a></li>
+            <li><a href="../contact.html">Contact Us</a></li>
+            <li><a href="../dashboard.html">Dashboard</a></li>
+            <li><a href="hub.html">My Profile</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 EcoCart. All rights reserved. Premium Sharing Platform</p>
+      </div>
     </div>
   </footer>
 

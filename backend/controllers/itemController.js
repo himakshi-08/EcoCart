@@ -87,11 +87,27 @@ exports.createItem = async (req, res, next) => {
 // Get All Items with advanced filtering
 exports.getAllItems = async (req, res) => {
   try {
-    const items = await Item.find()
+    const { category, search, includeClaimed } = req.query;
+    let query = {};
+
+    // Filter out claimed items by default unless includeClaimed is 'true'
+    if (includeClaimed !== 'true') {
+      query.claimedBy = null;
+    }
+
+    if (category) {
+      query.category = category.toLowerCase();
+    }
+
+    if (search) {
+      query.title = { $regex: search, $options: 'i' };
+    }
+
+    const items = await Item.find(query)
       .sort({ createdAt: -1 })
       .populate('postedBy', 'name')
       .populate('claimedBy', 'name');
-    res.json({ success: true, data: items }); // <-- wrap in object
+    res.json({ success: true, data: items });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -125,8 +141,12 @@ exports.deleteItem = async (req, res) => {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ error: 'Item not found' });
 
-    // Check ownership
-    if (!item.postedBy || item.postedBy.toString() !== req.user) {
+    // Check ownership or admin status
+    const userRole = req.userRole; // Assuming role is attached in auth middleware
+    const isOwner = item.postedBy && item.postedBy.toString() === req.user;
+    const isAdmin = userRole === 'admin';
+
+    if (!isOwner && !isAdmin) {
       return res.status(401).json({ error: 'Not authorized to delete this item' });
     }
 

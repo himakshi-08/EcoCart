@@ -66,8 +66,10 @@
             </a>
             <nav id="main-nav">
                 <ul>
-                    <li><a href="browse.html">Marketplace</a></li>
-                    <li><a href="hub.html">My Hub</a></li>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About Us</a></li>
+                    <li><a href="../index.html#how">How It Works</a></li>
+                    <li><a href="../contact.html">Contact Us</a></li>
                     <li class="auth-only">
                         <div class="user-menu" onclick="toggleDropdown()">
                             <div class="user-avatar" id="user-avatar-initial" style="background: var(--accent);">A</div>
@@ -81,6 +83,8 @@
                                     </div>
                                 </div>
                                 <div class="dropdown-body">
+                                    <a href="../dashboard.html" class="dropdown-item"><i
+                                            class="fas fa-tachometer-alt"></i> Dashboard</a>
                                     <a href="admin.html" class="dropdown-item active"><i class="fas fa-user-shield"></i>
                                         Admin Panel</a>
                                     <a href="hub.html" class="dropdown-item"><i class="fas fa-user-circle"></i> View My
@@ -139,8 +143,69 @@
                     </tbody>
                 </table>
             </div>
-        </section>
+            <section style="margin-top: 4rem;">
+                <h2 style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-box-open" style="color: var(--primary);"></i> Item Management
+                </h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Poster</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="item-table-body">
+                            <!-- Loaded by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
     </main>
+
+    <footer class="professional-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <i class="fas fa-recycle" style="color: var(--primary-light);"></i>
+                        <span>EcoCart</span>
+                    </a>
+                    <p>Building a sustainable future through community sharing and zero-waste living.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="browse.html">Browse Items</a></li>
+                        <li><a href="post.html">Give Something</a></li>
+                        <li><a href="../index.html#how">How it Works</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="../about.html">About Us</a></li>
+                        <li><a href="../contact.html">Contact Us</a></li>
+                        <li><a href="../dashboard.html">Dashboard</a></li>
+                        <li><a href="hub.html">My Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EcoCart. All rights reserved. Premium Sharing Platform</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         function toggleDropdown() {
