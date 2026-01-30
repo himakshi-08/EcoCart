@@ -346,7 +346,7 @@ nav a.active {
 /* About & Contact Heroes */
 .about-hero {
   padding: 4rem 0;
-  background: linear-gradient(rgba(17, 29, 19, 0.8), rgba(17, 29, 19, 0.8)), url('C:/Users/chhim/.gemini/antigravity/brain/42348bc8-7a8d-49fa-8c09-574fca6762ed/about_hero_bg_sustainability_1769759792311.png');
+  background: linear-gradient(rgba(17, 29, 19, 0.8), rgba(17, 29, 19, 0.8)), url('../assets/about-hero-bg.png');
   background-size: cover;
   background-position: center;
   /* background-attachment: fixed; removing fixed as it might cause gaps on some browsers */
@@ -463,7 +463,7 @@ nav a.active {
 /* Contact Hero Specific */
 .contact-hero {
   padding: 5rem 0;
-  background: linear-gradient(rgba(17, 45, 17, 0.85), rgba(17, 45, 17, 0.85)), url('C:/Users/chhim/.gemini/antigravity/brain/42348bc8-7a8d-49fa-8c09-574fca6762ed/contact_hero_bg_support_1769760086842.png');
+  background: linear-gradient(rgba(17, 45, 17, 0.85), rgba(17, 45, 17, 0.85)), url('../assets/contact-hero-bg.png');
   background-size: cover;
   background-position: center;
   text-align: center;
