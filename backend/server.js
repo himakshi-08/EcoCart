@@ -32,7 +32,12 @@ app.use('/api/admin', adminRoutes);
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend')));
 
+  // Only redirect to index.html for routes that don't have file extensions
   app.get('*', (req, res) => {
+    // If the request has a file extension (like .png, .jpg, .css, .js), don't redirect
+    if (path.extname(req.path)) {
+      return res.status(404).send('File not found');
+    }
     res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
   });
 }
