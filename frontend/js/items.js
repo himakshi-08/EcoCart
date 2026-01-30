@@ -85,7 +85,7 @@ async function loadUserHub() {
   }
 }
 
-}
+
 
 function displayHub(items, containerId, isOwner) {
   const container = document.getElementById(containerId);
