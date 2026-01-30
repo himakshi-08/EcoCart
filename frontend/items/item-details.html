@@ -121,7 +121,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const user = JSON.parse(sessionStorage.getItem('user') || '{}');
       if (user.name) {
         const initial = user.name.charAt(0).toUpperCase();
         const avatarInitial = document.getElementById('user-avatar-initial');
@@ -145,8 +145,8 @@
       const id = params.get('id');
       const container = document.getElementById('item-details');
 
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const token = localStorage.getItem('token');
+      const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+      const token = sessionStorage.getItem('token');
 
       if (!id) {
         container.innerHTML = '<div class="auth-card" style="text-align:center;"><h2>Item not found</h2></div>';
@@ -223,7 +223,7 @@
     });
 
     async function handleClaim(itemId) {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       if (!token) {
         alert('Please login to claim items!');
         window.location.href = '../auth/login.html';
@@ -256,7 +256,7 @@
     async function handleDeleteItem(itemId) {
       if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) return;
 
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       try {
         const res = await fetch(`${BACKEND_URL}/api/items/${itemId}`, {
           method: 'DELETE',

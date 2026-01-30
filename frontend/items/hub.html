@@ -168,7 +168,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const user = JSON.parse(sessionStorage.getItem('user') || '{}');
             if (user.name) {
                 const initial = user.name.charAt(0).toUpperCase();
                 document.getElementById('user-avatar-initial').textContent = initial;

@@ -7,7 +7,7 @@ if (typeof window.isLocal === 'undefined') {
 const BACKEND_URL = window.isLocal ? 'http://localhost:5001' : window.location.origin;
 const API_BASE_URL = `${BACKEND_URL}/api/items`;
 
-let token = localStorage.getItem('token') || '';
+let token = sessionStorage.getItem('token') || '';
 // Debug mode - set to false for production
 const DEBUG_MODE = true;
 
@@ -85,12 +85,18 @@ async function loadUserHub() {
   }
 }
 
+}
+
 function displayHub(items, containerId, isOwner) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
   if (!items.length) {
-    container.innerHTML = '<p style="text-align:center; padding: 2rem; color: var(--text-light);">No items found here yet.</p>';
+    const msg = containerId === 'my-posts-container'
+      ? "You haven't posted anything yet. Share something today!"
+      : "You haven't claimed any items yet.";
+
+    container.innerHTML = `<p style="text-align:center; padding: 2rem; color: var(--text-light);">${msg}</p>`;
     return;
   }
 

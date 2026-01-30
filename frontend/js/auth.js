@@ -27,8 +27,8 @@ if (loginForm) {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('user', JSON.stringify(data.user));
         // Show success and redirect
         window.location.href = '../items/browse.html';
       } else {
@@ -62,8 +62,8 @@ if (registerForm) {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('user', JSON.stringify(data.user));
         window.location.href = '../items/browse.html';
       } else {
         alert(data.error || 'Registration failed. Try a different email.');
@@ -76,8 +76,8 @@ if (registerForm) {
 
 // Check if user is logged in
 function checkAuth() {
-  const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user'));
+  const token = sessionStorage.getItem('token');
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   if (!token || !user) {
     window.location.href = '../auth/login.html';
@@ -88,8 +88,8 @@ function checkAuth() {
 
 // Initial UI check
 document.addEventListener('DOMContentLoaded', () => {
-  const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user'));
+  const token = sessionStorage.getItem('token');
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   if (token && user) {
     document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'block');
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Logout
 function logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('user');
   // Check if we are in items folder or root
   const isSubFolder = window.location.pathname.includes('/items/') || window.location.pathname.includes('/auth/');
   window.location.href = isSubFolder ? '../auth/login.html' : 'auth/login.html';

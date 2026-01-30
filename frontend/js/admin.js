@@ -1,7 +1,7 @@
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
-const ADMIN_API_URL = (isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com') + '/api/admin';
-const token = localStorage.getItem('token');
-const user = JSON.parse(localStorage.getItem('user'));
+const ADMIN_API_URL = (isLocal ? 'http://localhost:5001' : window.location.origin) + '/api/admin';
+const token = sessionStorage.getItem('token');
+const user = JSON.parse(sessionStorage.getItem('user'));
 
 async function loadAdminDashboard() {
     loadStats();
@@ -90,7 +90,7 @@ async function loadAdminItems() {
 
     try {
         // Fetch ALL items including claimed ones
-        const res = await fetch(`${window.BACKEND_URL || (isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com')}/api/items?includeClaimed=true`, {
+        const res = await fetch(`${window.BACKEND_URL || (isLocal ? 'http://localhost:5001' : window.location.origin)}/api/items?includeClaimed=true`, {
             headers: { 'x-auth-token': token }
         });
         const data = await res.json();
@@ -125,7 +125,7 @@ if (typeof window.handleDeleteItem === 'undefined') {
         if (!confirm('Are you sure you want to remove this item? (Admin Action)')) return;
 
         try {
-            const res = await fetch(`${window.BACKEND_URL || (isLocal ? 'http://localhost:5001' : 'https://ecocart-backend-lcos.onrender.com')}/api/items/${id}`, {
+            const res = await fetch(`${window.BACKEND_URL || (isLocal ? 'http://localhost:5001' : window.location.origin)}/api/items/${id}`, {
                 method: 'DELETE',
                 headers: { 'x-auth-token': token }
             });
