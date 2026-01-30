@@ -18,7 +18,7 @@ EcoCart is a community-driven platform designed to promote the circular economy.
 - **Smart Search**: Filter items by category or search by keyword.
 - **Profile Hub**: Manage your posted items and view your claim history.
 
-### 🛡️ Admin Features ("God Mode")
+### 🛡️ Admin Features 
 - **Admin Panel**: Dedicated dashboard to view platform statistics (Total Users, Items, Claims).
 - **User Management**: Admins can view all registered users and **delete any user** from the system.
 - **Content Moderation**: Admins can view all items and **delete any item** directly from the item details page, regardless of ownership.
