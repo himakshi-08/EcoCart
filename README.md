@@ -67,10 +67,6 @@ EcoCart is a community-driven platform designed to promote the circular economy.
 
 ## 🧪 Test Credentials
 
-**Admin Account:**
-- **Email:** `admin@ecocart.com`
-- **Password:** `admin123`
-
 **Demo User:**
 - **Email:** `alice@mail.com`
 - **Password:** `123456`
